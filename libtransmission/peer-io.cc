@@ -17,6 +17,8 @@
 
 #include <fmt/format.h>
 
+#include <signal.h>
+
 #include "transmission.h"
 #include "session.h"
 #include "bandwidth.h"
@@ -87,6 +89,9 @@ std::shared_ptr<tr_peerIo> tr_peerIo::create(
 {
     TR_ASSERT(session != nullptr);
     auto lock = session->unique_lock();
+
+    /* Don't exit when writing on a broken socket */
+    (void)signal(SIGPIPE, SIG_IGN);
 
     auto io = std::make_shared<tr_peerIo>(session, info_hash, is_incoming, is_seed, parent);
     io->bandwidth().setPeer(io);

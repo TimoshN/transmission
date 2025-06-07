@@ -19,6 +19,8 @@
 #include <winsock2.h>
 #endif
 
+#include <signal.h>
+
 #include <event2/event.h>
 #include <event2/thread.h>
 
@@ -221,10 +223,10 @@ private:
 
     void sessionThreadFunc(struct event_base* evbase)
     {
-#ifndef _WIN32
+
         /* Don't exit when writing on a broken socket */
         (void)signal(SIGPIPE, SIG_IGN);
-#endif
+
         tr_evthread_init();
 
         constexpr auto ToggleLooping = [](evutil_socket_t, short /*evtype*/, void* vself)

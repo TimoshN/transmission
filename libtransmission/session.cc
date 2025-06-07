@@ -26,6 +26,8 @@
 #include <sys/stat.h> /* umask() */
 #endif
 
+#include <signal.h>
+
 #include <event2/event.h>
 
 #include <fmt/chrono.h>
@@ -634,10 +636,10 @@ void tr_session::initImpl(init_data& data)
     tr_sessionGetDefaultSettings(&settings);
     tr_variantMergeDicts(&settings, client_settings);
 
-#ifndef _WIN32
+
     /* Don't exit when writing on a broken socket */
     (void)signal(SIGPIPE, SIG_IGN);
-#endif
+
 
     tr_logSetQueueEnabled(data.message_queuing_enabled);
 
