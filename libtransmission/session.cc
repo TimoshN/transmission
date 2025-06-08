@@ -1301,7 +1301,7 @@ void tr_session::closeImplPart2(std::promise<void>* closed_promise, std::chrono:
 {
     // try to keep web_ and the UDP announcer alive long enough to send out
     // all the &event=stopped tracker announces
-    if ((!web_->is_idle() || !announcer_udp_->is_idle() || !global_ip_cache_->try_shutdown()) &&
+    if ((!web_->is_idle() || !announcer_udp_->is_idle()) &&
         std::chrono::steady_clock::now() < deadline)
     {
         announcer_->upkeep();
