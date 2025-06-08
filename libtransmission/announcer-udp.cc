@@ -355,7 +355,7 @@ struct tau_tracker
         }
 
         // are there any requests pending?
-        if (this->isIdle())
+        if (this->is_idle())
         {
             return;
         }
@@ -403,6 +403,11 @@ struct tau_tracker
             send_requests();
         }
     }
+    
+    [[nodiscard]] bool is_idle() const noexcept
+    {
+        return std::empty(announces) && std::empty(scrapes) && !addr_pending_dns_;
+    }
 
 private:
     using Sockaddr = std::pair<sockaddr_storage, socklen_t>;
@@ -444,11 +449,6 @@ private:
 
         logdbg(logname, "DNS lookup succeeded");
         return std::make_pair(ss, len);
-    }
-
-    [[nodiscard]] bool isIdle() const noexcept
-    {
-        return std::empty(announces) && std::empty(scrapes) && !addr_pending_dns_;
     }
 
     void failAll(bool did_connect, bool did_timeout, std::string_view errmsg)
@@ -691,6 +691,11 @@ public:
 
         /* no match... */
         return false;
+    }
+
+    [[nodiscard]] bool is_idle() const noexcept override
+    {
+        return std::all_of(std::begin(trackers_), std::end(trackers_), [](auto const& tracker) { return tracker.is_idle(); });
     }
 
 private:
