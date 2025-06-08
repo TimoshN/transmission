@@ -158,7 +158,7 @@ void cancelSlowRequest(Wishlist::Mediator const& mediator, tr_torrent* torrent, 
         // Avoid division by zero. Cancel request stuck for 1 seconds
         if (current_peer_speed == 0 && time_diff >= 1 && peer_speed > 0)
         {
-            tr_logAddInfo(fmt::format("cancelling stuck request to block {}", block));
+            // tr_logAddInfo(fmt::format("cancelling stuck request to block {}", block));
             tr_cancelRequestForBlock(torrent, current_peer, block);
             return;
         }
@@ -178,7 +178,7 @@ void cancelSlowRequest(Wishlist::Mediator const& mediator, tr_torrent* torrent, 
 
         if (is_slow)
         {
-            tr_logAddInfo(fmt::format("cancelling slow request to block {} {}", block, speed_factor));
+            // tr_logAddInfo(fmt::format("cancelling slow request to block {} {}", block, speed_factor));
             tr_cancelRequestForBlock(torrent, current_peer, block);
             return;
         }
