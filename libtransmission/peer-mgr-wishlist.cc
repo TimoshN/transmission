@@ -91,9 +91,9 @@ std::vector<Candidate> getCandidates(Wishlist::Mediator const& mediator)
     // In sequential download mode, start downloading from a specific piece (e.g middle of a video)
     if (is_sequential && sequential_from_piece > 0 && sequential_from_piece <= wanted_pieces.size())
     {
-        tr_logAddInfo(fmt::format("rotating wanted_piece from piece {} {}", sequential_from_piece, wanted_pieces.size()));
+        // tr_logAddInfo(fmt::format("rotating wanted_piece from piece {} {}", sequential_from_piece, wanted_pieces.size()));
         std::rotate(wanted_pieces.begin(), wanted_pieces.begin() + sequential_from_piece, wanted_pieces.end());
-        tr_logAddInfo(fmt::format("rotated first piece {}", wanted_pieces[0].first));
+        // tr_logAddInfo(fmt::format("rotated first piece {}", wanted_pieces[0].first));
     }
 
     for (size_t i = 0; i < n; ++i)
